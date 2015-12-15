@@ -43,13 +43,43 @@ class AdvanceSearchController extends Controller {
          ->add('searchAll', 'submit', array('label' => 'Ver todos'))
 						->getForm();
 		
-		
 		$form->handleRequest($request);
 		if ($form->isValid() && $form->isSubmitted()) {
 			
 			//creamos la query con la información de la request
 			if ($form->get ( 'search' )->isClicked()) {
+				$all = $request->request->all();
+				$query_select = "SELECT o FROM AppBundle:Objetos o WHERE ";//WHERE o.disponible_sn = 's' order by o.id desc";
 				
+				if($all['form']['descripcion']) {
+					$query_select = $query_select ." o.descripcion='".$all['form']['descripcion']."'";
+				}
+				
+				//$necesitaAval = $all['form']['aval_sn'];
+				//$permitePagoFrac = $all['form']['pagoaplazos_sn'];
+				
+				
+				$tipos = $all['form']['idtipo'];
+				if (count($tipos) > 0) {
+					$query_select = $query_select ." AND ( ";
+					for ($i = 0; $i < count($tipos); $i++) {
+						if (count($tipos) > 1 && $i < count($tipos)-1) {
+							$query_select = $query_select ." o.idtipo = '". $tipos[$i]."' OR ";
+						} else {
+							$query_select = $query_select ." o.idtipo = '". $tipos[$i]."' ";
+						}
+					}
+					$query_select = $query_select.")";
+				}
+				
+				try {
+					// 3 hacemos la query de la búsqueda
+					$result = $this->getDoctrine ()->getManager ()->createQuery($query_select);
+					$busqueda = $result->getResult();
+				} catch (ORMException $ex) {
+					$this->addFlash('notice', 'Se ha producido un error al crear el usuario');
+					$this->addFlash('error', $ex->getMessage());
+				}
 			} else if ($form->get ( 'searchAll' )->isClicked()) {
 				try {
 					// 3 hacemos la query de la búsqueda
