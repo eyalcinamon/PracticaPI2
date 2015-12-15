@@ -4,9 +4,7 @@
 <h2>Buscador avanzado</h2>
 
 <?php foreach ($view['session']->getFlash('notice') as $message): ?>
-    <div class="flash-notice">
-        <?php echo "<div class='flash-error'>$message</div>" ?>
-    </div>
+	<?php echo "<div class='flash-error'>$message</div>" ?>
 <?php endforeach ?>
 
 <br>
