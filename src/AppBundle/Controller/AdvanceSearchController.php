@@ -17,15 +17,22 @@ class AdvanceSearchController extends Controller {
 		
 		// 1 construir el formulario
 		$defaultData = array('message' => 'Type here');
-		$form = $this->createFormBuilder($defaultData)
+		$form = $this->createFormBuilder($defaultData, array('attr' => array('class' => 'pure-form pure-form-aligned')))
 		->add ( 'descripcion', 'text', array(
-				'required' => false,))
+				'required' => false,
+				//'label_attr' => array( 'class' => 'form-control'),
+				'attr' => array( 'class' => 'pure-input-1-2')
+		))
 		->add ( 'aval_sn', 'checkbox', array(
-				'label'    => 'Necesita aval',
-				'required' => false,))
+				'label' => 'Necesita aval',
+				'required' => false,
+				//'label_attr' => array( 'class' => 'pure-checkbox')
+		))
 		->add ( 'pagoaplazos_sn', 'checkbox', array(
 				'label'    => 'Permite pago fraccionado',
-				'required' => false,))
+				//'label_attr' => array( 'class' => 'pure-checkbox'),
+				'required' => false
+		))
 		//segun todos los tipos que hay en base de datos
 		->add('idtipo', 'entity', array(
                 'class' => 'AppBundle\Entity\TiposObjetos',
@@ -34,14 +41,21 @@ class AdvanceSearchController extends Controller {
                         ->orderBy('u.nombre', 'DESC');
                 },
                 'label' => 'Tipos:',
+                //'label_attr' => array( 'class' => 'pure-checkbox'),
+                'attr' => array( 'class' => 'pure-controls leftalign'),
                 'property' => 'nombre',
                 'expanded' => true,
                 'multiple' => true,
-                'required' => false,
-            ))
-         ->add('search', 'submit', array('label' => 'Buscar'))
-         ->add('searchAll', 'submit', array('label' => 'Ver todos'))
-						->getForm();
+                'required' => false
+		))
+        ->add ( 'search', 'submit', array(
+         		'label' => 'Buscar',
+				'attr' => array( 'class' => 'sessionbtn')
+         ))
+         ->add ( 'searchAll', 'submit', array(
+         		 'label' => 'Ver todos',
+				 'attr' => array( 'class' => 'sessionbtn')
+         ))->getForm();
 		
 		$form->handleRequest($request);
 		if ($form->isValid() && $form->isSubmitted()) {

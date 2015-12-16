@@ -9,12 +9,25 @@
 
 <br>
 <?php echo $view['form']->start($form) ?>
+	<div class="pure-control-group">
     <?php echo $view['form']->row($form['descripcion']) ?>
+    </div>
+    <div class="pure-control-group">
     <?php echo $view['form']->row($form['aval_sn']) ?>
     <?php echo $view['form']->row($form['pagoaplazos_sn']) ?>
+    </div>
+    
+    <div class="pure-control-group">
     <?php echo $view['form']->row($form['idtipo']) ?>
-    <?php echo $view['form']->row($form['search']) ?>
-    <?php echo $view['form']->row($form['searchAll']) ?>
+    </div>
+    <div class="pure-controls">
+    <table border="0">
+    <tr>
+    	<td><?php echo $view['form']->row($form['search']) ?></td>
+    	<td><?php echo $view['form']->row($form['searchAll']) ?></td>
+    </tr>
+    </table>
+    </div>
 <?php echo $view['form']->end($form) ?>
 
 <br>
